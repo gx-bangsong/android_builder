@@ -20,7 +20,7 @@ jobs:
       # 步骤 3: 直接克隆 exTHmUI/android_packages_apps_DeskClock 项目
       # 这里我们不再需要 'get-project' 步骤，因为我们直接指定了要克隆的项目
       - name: Clone Dialer project
-        run: git clone --depth=1 https://github.com/exTHmUI/android_packages_apps_Dialer# project
+        run: git clone --depth=1 https://github.com/exTHmUI/android_packages_apps_Dialer project
       
       # 步骤 4: 构建应用程序
       # 'working-directory' 设置为 'project'，因为我们把 DeskClock 克隆到了这个文件夹

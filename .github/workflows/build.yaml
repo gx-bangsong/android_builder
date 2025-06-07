@@ -15,7 +15,7 @@ jobs:
       - name: Set up JDK
         uses: actions/setup-java@v1
         with:
-          java-version: 1.8
+          java-version: 11
       
       # 步骤 3: 直接克隆 exTHmUI/android_packages_apps_DeskClock 项目
       # 这里我们不再需要 'get-project' 步骤，因为我们直接指定了要克隆的项目

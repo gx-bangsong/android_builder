@@ -34,7 +34,7 @@ jobs:
       # 步骤 5: 上传编译好的 APK 文件作为工作流产物
       # 'path: ./**/*.apk' 会查找所有子目录下的所有 APK 文件并上传
       - name: Upload APK
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: DeskClock-build-apk # 给上传的 APK 文件起个更具体的名字
           path: ./**/*.apk

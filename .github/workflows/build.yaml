@@ -26,7 +26,7 @@ jobs:
       # 'working-directory' 设置为 'project'，因为我们把 DeskClock 克隆到了这个文件夹
       - name: Build the DeskClock app
         working-directory: ./project
-        run: 
+        run: |
           if [ ! -f "gradlew" ]; then gradle wrapper; fi
           chmod +x gradlew
           ./gradlew assembleDebug --stacktrace

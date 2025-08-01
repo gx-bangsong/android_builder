@@ -15,7 +15,7 @@ jobs:
       - name: Set up JDK
         uses: actions/setup-java@v1
         with:
-          java-version: 11
+          java-version: 17
       
       # Step 3: Clone the GKUIClock project
       # This will clone the repository into a directory named "GKUIClock"

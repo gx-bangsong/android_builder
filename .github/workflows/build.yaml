@@ -7,35 +7,34 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      # 步骤 1: 检出你的工作流代码
+      # Step 1: Check out your workflow code
       - name: Checkout the code
         uses: actions/checkout@v2
       
-      # 步骤 2: 设置 Java 开发环境 (JDK 1.8)
+      # Step 2: Set up Java Development Kit (JDK 11)
       - name: Set up JDK
         uses: actions/setup-java@v1
         with:
           java-version: 11
       
-      # 步骤 3: 直接克隆 exTHmUI/android_packages_apps_DeskClock 项目
-      # 这里我们不再需要 'get-project' 步骤，因为我们直接指定了要克隆的项目
-      - name: Clone Dialer project
+      # Step 3: Clone the GKUIClock project
+      # This will clone the repository into a directory named "GKUIClock"
+      - name: Clone project
         run: git clone --depth=1 https://github.com/gx-bangsong/GKUIClock/
       
-      # 步骤 4: 构建应用程序
-      # 'working-directory' 设置为 'project'，因为我们把 DeskClock 克隆到了这个文件夹
-      - name: Build the Dialer app
-        working-directory: ./project
+      # Step 4: Build the application
+      # The 'working-directory' is now correctly set to './GKUIClock'
+      - name: Build the app
+        working-directory: ./GKUIClock
         run: |
           if [ ! -f "gradlew" ]; then gradle wrapper; fi
           chmod +x gradlew
           ./gradlew assembleDebug --stacktrace
       
-      # 步骤 5: 上传编译好的 APK 文件作为工作流产物
-      # 'path: ./**/*.apk' 会查找所有子目录下的所有 APK 文件并上传
+      # Step 5: Upload the compiled APK file as a workflow artifact
+      # The path is updated to look for APKs inside the 'GKUIClock' directory
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: Dialer-build-apk # 给上传的 APK 文件起个更具体的名字
-          path: ./**/*.apk
-
+          name: Dialer-build-apk
+          path: GKUIClock/app/build/outputs/apk/debug/*.apk

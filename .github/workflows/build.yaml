@@ -20,7 +20,7 @@ jobs:
       # Step 3: Clone the GKUIClock project
       # This will clone the repository into a directory named "GKUIClock"
       - name: Clone project
-        run: git clone --depth=1 https://github.com/gx-bangsong/GKUIClock/tree/holiday-alarm
+        run: git clone --depth=1 https://github.com/gx-bangsong/GKUIClock
       
       # Step 4: Build the application
       # The 'working-directory' is now correctly set to './GKUIClock'

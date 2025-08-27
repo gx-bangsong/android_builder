@@ -37,4 +37,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: Dialer-build-apk
-          path: GKUIClock/app/build/outputs/apk/debug/*.apk
+          path: gkproject-clock/app/build/outputs/apk/debug/*.apk

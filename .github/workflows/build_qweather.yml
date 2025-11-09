@@ -31,10 +31,10 @@ jobs:
       - name: Build with Gradle
         run: |
           cd SmartspacerPlugins
-          ./gradlew :qweather:assembleRelease
+          ./gradlew :qweather:assembleDebug
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: qweather-plugin
-          path: SmartspacerPlugins/qweather/build/outputs/apk/release/qweather-release.apk
+          path: SmartspacerPlugins/qweather/build/outputs/apk/debug/qweather-debug.apk

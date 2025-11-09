@@ -11,13 +11,13 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           repository: 'gx-bangsong/SmartspacerPlugins'
           path: 'SmartspacerPlugins'
 
       - name: Set up JDK 17
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           java-version: '17'
           distribution: 'temurin'
@@ -31,7 +31,7 @@ jobs:
           ./gradlew :qweather:assembleRelease
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: qweather-plugin
-          path: SmartspacerPlugins/apks/qweather-release.apk
+          path: SmartspacerPlugins/qweather/build/outputs/apk/release/qweather-release.apk

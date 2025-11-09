@@ -20,16 +20,16 @@ jobs:
       # Step 3: Clone the GKUIClock project
       # This will clone the repository into a directory named "GKUIClock"
       - name: Clone project
-        run: git clone --depth=1 https://github.com/gx-bangsong/gkproject-clock
+        run: git clone --depth=1 https://github.com/gx-bangsong/SmartspacerPlugins/
       
       # Step 4: Build the application
       # The 'working-directory' is now correctly set to './GKUIClock'
       - name: Build the app
-        working-directory: ./gkproject-clock
+        working-directory: ./SmartspacerPlugins
         run: |
           if [ ! -f "gradlew" ]; then gradle wrapper; fi
           chmod +x gradlew
-          ./gradlew assembleDebug --stacktrace
+          ./gradlew :qweather:assembleDebug --stacktrace
       
       # Step 5: Upload the compiled APK file as a workflow artifact
       # The path is updated to look for APKs inside the 'GKUIClock' directory

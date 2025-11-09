@@ -25,6 +25,9 @@ jobs:
       - name: Grant execute permission to gradlew
         run: chmod +x SmartspacerPlugins/gradlew
 
+      - name: Create local.properties
+        run: touch SmartspacerPlugins/local.properties
+
       - name: Build with Gradle
         run: |
           cd SmartspacerPlugins

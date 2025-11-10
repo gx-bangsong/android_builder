@@ -31,10 +31,10 @@ jobs:
       - name: Build with Gradle
         run: |
           cd SmartspacerPlugins
-          ./gradlew :plugin-food:assembleDebug
+          ./gradlew :plugin-medication:assembleDebug
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: qweather-plugin
-          path: SmartspacerPlugins/apks/plugin-food-debug.apk
+          path: SmartspacerPlugins/apks/plugin-medication-debug.apk

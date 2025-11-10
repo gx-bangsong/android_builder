@@ -37,4 +37,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: qweather-plugin
-          path: SmartspacerPlugins/qweather/build/outputs/apk/debug/qweather-debug.apk
+          path: SmartspacerPlugins/apks/qweather-debug.apk

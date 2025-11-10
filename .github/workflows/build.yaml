@@ -34,7 +34,7 @@ jobs:
           ./gradlew :qweather:assembleDebug
 
       - name: List build outputs
-        run: ls -R SmartspacerPlugins/
+        run: ls -R SmartspacerPlugins/apks/
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4

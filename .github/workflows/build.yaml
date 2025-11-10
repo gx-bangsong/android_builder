@@ -1,40 +1,40 @@
-name: android_build
+name: Build QWeather Plugin
 
 on:
+  push:
+    branches: [ main ]
   workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
-      # Step 1: Check out your workflow code
-      - name: Checkout the code
-        uses: actions/checkout@v2
-      
-      # Step 2: Set up Java Development Kit (JDK 11)
-      - name: Set up JDK
-        uses: actions/setup-java@v1
+      - name: Checkout repository
+        uses: actions/checkout@v4
         with:
-          java-version: 17
+          repository: 'gx-bangsong/SmartspacerPlugins'
+          path: 'SmartspacerPlugins'
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Grant execute permission to gradlew
+        run: chmod +x SmartspacerPlugins/gradlew
       
-      # Step 3: Clone the GKUIClock project
-      # This will clone the repository into a directory named "GKUIClock"
-      - name: Clone project
-        run: git clone --depth=1 https://github.com/gx-bangsong/gkproject-clock
-      
-      # Step 4: Build the application
-      # The 'working-directory' is now correctly set to './GKUIClock'
-      - name: Build the app
-        working-directory: ./gkproject-clock
+      - name: Create local.properties
+        run: touch SmartspacerPlugins/local.properties
+
+      - name: Build with Gradle
         run: |
-          if [ ! -f "gradlew" ]; then gradle wrapper; fi
-          chmod +x gradlew
-          ./gradlew assembleDebug --stacktrace
-      
-      # Step 5: Upload the compiled APK file as a workflow artifact
-      # The path is updated to look for APKs inside the 'GKUIClock' directory
-      - name: Upload APK
+          cd SmartspacerPlugins
+          ./gradlew :plugin-water:assembleDebug
+
+      - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: Dialer-build-apk
-          path: gkproject-clock/app/build/outputs/apk/debug/*.apk
+          name: qweather-plugin
+          path: SmartspacerPlugins/apks/plugin-water-debug.apk

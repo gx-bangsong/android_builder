@@ -20,7 +20,7 @@ jobs:
       # Step 3: Clone the GKUIClock project
       # This will clone the repository into a directory named "GKUIClock"
       - name: Clone project
-        run: git clone --depth=1 -b fix/clean-install-crash-and-internet-perm-8671396376364523767 https://github.com/gx-bangsong/gkproject-clock
+        run: git clone --depth=1 -b fix-class-cast-exceptions-align-xml-tags-10505217594634629648 https://github.com/gx-bangsong/gkproject-clock
       
       # Step 4: Build the application
       # The 'working-directory' is now correctly set to './GKUIClock'

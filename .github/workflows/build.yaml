@@ -1,4 +1,4 @@
-name: Build QWeather Plugin
+name: Build Parcel Plugin
 
 on:
   push:

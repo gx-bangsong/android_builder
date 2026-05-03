@@ -42,18 +42,18 @@ jobs:
       - name: Build with Gradle
         run: |
           cd SmartspacerPlugins
-          ./gradlew :qweather:assembleRelease
+          ./gradlew :qweather:assembleDebug
 
       - name: Prepare APK for upload
         run: |
           mkdir -p SmartspacerPlugins/apks
-          # Find the generated APK. In AGP 8+, it's usually in build/outputs/apk/release/
+          # Find the generated APK. In AGP 8+, it's usually in build/outputs/apk/debug/
           # We search for it and copy it to a predictable location.
-          APK_PATH=$(find SmartspacerPlugins/qweather/build/outputs/apk/release/ -name "*.apk" | head -n 1)
+          APK_PATH=$(find SmartspacerPlugins/qweather/build/outputs/apk/debug/ -name "*.apk" | head -n 1)
           if [ -n "$APK_PATH" ]; then
-            cp "$APK_PATH" SmartspacerPlugins/apks/qweather-release.apk
+            cp "$APK_PATH" SmartspacerPlugins/apks/qweather-debug.apk
           else
-            echo "Error: Release APK not found!"
+            echo "Error: Debug APK not found!"
             false
           fi
 
@@ -61,4 +61,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: qweather-plugin
-          path: SmartspacerPlugins/apks/qweather-release.apk
+          path: SmartspacerPlugins/apks/qweather-debug.apk

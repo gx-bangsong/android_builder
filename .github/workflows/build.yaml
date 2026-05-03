@@ -1,40 +1,64 @@
-name: android_build
+name: Build QWeather Plugin
 
 on:
+  push:
+    branches: [ main ]
   workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
-      # Step 1: Check out your workflow code
-      - name: Checkout the code
-        uses: actions/checkout@v2
-      
-      # Step 2: Set up Java Development Kit (JDK 11)
-      - name: Set up JDK
-        uses: actions/setup-java@v1
+      - name: Checkout repository
+        uses: actions/checkout@v4
         with:
-          java-version: 17
-      
-      # Step 3: Clone the GKUIClock project
-      # This will clone the repository into a directory named "GKUIClock"
-      - name: Clone project
-        run: git clone --depth=1 -b fix-class-cast-exceptions-align-xml-tags-10505217594634629648 https://github.com/gx-bangsong/gkproject-clock
-      
-      # Step 4: Build the application
-      # The 'working-directory' is now correctly set to './GKUIClock'
-      - name: Build the app
-        working-directory: ./gkproject-clock
+          repository: 'gx-bangsong/SmartspacerPlugins'
+          path: 'SmartspacerPlugins'
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Patch project warnings and setup
         run: |
-          if [ ! -f "gradlew" ]; then gradle wrapper; fi
-          chmod +x gradlew
-          ./gradlew assembleDebug --stacktrace
+          cd SmartspacerPlugins
+          # Create empty local.properties if it doesn't exist
+          touch local.properties
+
+          # Fix deprecated global buildConfig flag by using the new property name
+          sed -i 's/android.defaults.buildfeatures.buildconfig/android.buildFeatures.buildConfig/g' gradle.properties
+
+          # Remove problematic outputFileName logic to avoid relative path warnings
+          find . -name "build.gradle" -exec sed -i '/output.outputFileName =/d' {} +
+          # Also remove the outputFileDir definition if it exists to clean up
+          find . -name "build.gradle" -exec sed -i '/outputFileDir =/d' {} +
+
+      - name: Grant execute permission to gradlew
+        run: chmod +x SmartspacerPlugins/gradlew
       
-      # Step 5: Upload the compiled APK file as a workflow artifact
-      # The path is updated to look for APKs inside the 'GKUIClock' directory
-      - name: Upload APK
+      - name: Build with Gradle
+        run: |
+          cd SmartspacerPlugins
+          ./gradlew :qweather:assembleRelease
+
+      - name: Prepare APK for upload
+        run: |
+          mkdir -p SmartspacerPlugins/apks
+          # Find the generated APK. In AGP 8+, it's usually in build/outputs/apk/release/
+          # We search for it and copy it to a predictable location.
+          APK_PATH=$(find SmartspacerPlugins/qweather/build/outputs/apk/release/ -name "*.apk" | head -n 1)
+          if [ -n "$APK_PATH" ]; then
+            cp "$APK_PATH" SmartspacerPlugins/apks/qweather-release.apk
+          else
+            echo "Error: Release APK not found!"
+            false
+          fi
+
+      - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: Dialer-build-apk
-          path: gkproject-clock/app/build/outputs/apk/debug/*.apk
+          name: qweather-plugin
+          path: SmartspacerPlugins/apks/qweather-release.apk
